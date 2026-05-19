@@ -14,6 +14,7 @@ const { analyzeAccessibility } = require("./analyzers/accessibility");
 const { analyzeLinks } = require("./analyzers/links");
 const { printReport } = require("./utils/reporter");
 const { exportJSON, exportHTML } = require("./utils/exporter");
+const { analyzeSecurity } = require("./analyzers/security");
 
 // ─────────────────────────────────────────
 // MAIN ANALYZE FUNCTION
@@ -70,6 +71,7 @@ async function analyze(rawUrl, options = {}) {
     techStack: null,
     accessibility: null,
     links: null,
+    security: null,
   };
 
   const shouldRun = (name) => !only || only.includes(name);
@@ -133,7 +135,16 @@ async function analyze(rawUrl, options = {}) {
       results.links = errorResult("Links", err);
     }
   }
-
+  if (shouldRun("security")) {
+    const s = silent ? null : ora({ text: chalk.cyan("Checking security..."), spinner: "dots" }).start();
+    try {
+      results.security = analyzeSecurity(headers, url, fetchResult.html);
+      if (s) s.succeed(chalk.green(`Security — ${results.security.percentage}% (${results.security.grade.letter})`));
+    } catch (err) {
+      if (s) s.fail(chalk.red("Security check failed"));
+      results.security = errorResult("Security", err);
+    }
+  }
   // ─────────────────────────────────────────
   // 4. OUTPUT
   // ─────────────────────────────────────────

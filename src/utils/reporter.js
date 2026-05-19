@@ -10,12 +10,13 @@ const Table = require("cli-table3");
 // MAIN REPORT PRINT FUNCTION
 // ─────────────────────────────────────────
 
-function printReport(url, { seo, performance, techStack, accessibility, links }, responseTime) {
+function printReport(url, { seo, performance, techStack, accessibility, links, security }, responseTime) {
   printHeader(url, responseTime);
-  printOverallScore({ seo, performance, accessibility, links });
+  printOverallScore({ seo, performance, accessibility, links, security });
   printTechStack(techStack);
   printSection("SEO", seo);
   printSection("Performance", performance);
+  printSection("Security", security);
   printSection("Accessibility", accessibility);
   printLinksSection(links);
   printFooter();
@@ -63,6 +64,7 @@ function printOverallScore({ seo, performance, accessibility, links }) {
   const categories = [
     { name: "SEO", data: seo },
     { name: "Performance", data: performance },
+    { name: "Security", data: security },
     { name: "Accessibility", data: accessibility },
     { name: "Links", data: links },
   ];
@@ -154,6 +156,7 @@ function printSection(name, data) {
   const icons = {
     SEO: "🔍",
     Performance: "⚡",
+    Security: "🔒",
     Accessibility: "♿",
   };
 

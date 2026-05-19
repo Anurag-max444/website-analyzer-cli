@@ -118,7 +118,7 @@ function printBanner() {
 // ─────────────────────────────────────────
 
 function parseModules(val) {
-  const valid = ["seo", "performance", "tech", "accessibility", "links"];
+  const valid = ["seo", "performance", "tech", "accessibility", "links", "security"];
   const modules = val.split(",").map((m) => m.trim().toLowerCase());
   const invalid = modules.filter((m) => !valid.includes(m));
 
