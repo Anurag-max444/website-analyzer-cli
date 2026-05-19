@@ -1,0 +1,32 @@
+{
+  "name": "website-analyzer-cli",
+  "version": "1.0.0",
+  "description": "🔍 Analyze any website - SEO, Performance, Tech Stack, Accessibility & Broken Links",
+  "main": "src/index.js",
+  "bin": {
+    "website-analyzer": "./bin/index.js"
+  },
+  "scripts": {
+    "start": "node bin/index.js",
+    "test": "node bin/index.js https://example.com"
+  },
+  "keywords": [
+    "seo",
+    "website-analyzer",
+    "cli",
+    "performance",
+    "accessibility",
+    "tech-stack"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3",
+    "ora": "^5.4.1",
+    "commander": "^11.0.0",
+    "node-html-parser": "^6.1.0"
+  }
+}

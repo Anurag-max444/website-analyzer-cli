@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Website Analysis Report — https://google.com</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; line-height: 1.6; }
+    .container { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+
+    /* Header */
+    .header { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 28px; }
+    .header h1 { font-size: 1.6rem; color: #38bdf8; margin-bottom: 8px; }
+    .header .url { color: #94a3b8; font-size: 0.95rem; word-break: break-all; }
+    .header .meta { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+    .header .meta span { color: #64748b; font-size: 0.85rem; }
+    .header .meta strong { color: #cbd5e1; }
+
+    /* Score Cards */
+    .scores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .score-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.2s; }
+    .score-card:hover { transform: translateY(-2px); }
+    .score-card .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .score-card .score { font-size: 2rem; font-weight: 700; margin-bottom: 4px; }
+    .score-card .grade { font-size: 1.1rem; font-weight: 600; }
+    .score-card .bar-wrap { background: #0f172a; border-radius: 99px; height: 6px; margin-top: 10px; overflow: hidden; }
+    .score-card .bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
+    .grade-a .score, .grade-a .grade { color: #22c55e; }
+    .grade-a .bar-fill { background: #22c55e; }
+    .grade-b .score, .grade-b .grade { color: #38bdf8; }
+    .grade-b .bar-fill { background: #38bdf8; }
+    .grade-c .score, .grade-c .grade { color: #f59e0b; }
+    .grade-c .bar-fill { background: #f59e0b; }
+    .grade-d .score, .grade-d .grade { color: #ef4444; }
+    .grade-d .bar-fill { background: #ef4444; }
+    .grade-f .score, .grade-f .grade { color: #dc2626; }
+    .grade-f .bar-fill { background: #dc2626; }
+
+    /* Overall card */
+    .overall-card { background: linear-gradient(135deg, #1e3a5f, #1e293b); border: 1px solid #3b82f6; border-radius: 12px; padding: 20px; text-align: center; }
+    .overall-card .label { font-size: 0.8rem; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .overall-card .score { font-size: 2.4rem; font-weight: 800; color: #60a5fa; margin-bottom: 4px; }
+    .overall-card .grade { font-size: 1.2rem; font-weight: 600; color: #93c5fd; }
+    .overall-card .bar-wrap { background: #0f172a; border-radius: 99px; height: 8px; margin-top: 12px; overflow: hidden; }
+    .overall-card .bar-fill { height: 100%; border-radius: 99px; background: #3b82f6; }
+
+    /* Sections */
+    .section { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .section h2 { font-size: 1.1rem; color: #38bdf8; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section h2 .badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+    .badge-a { background: #14532d; color: #86efac; }
+    .badge-b { background: #0c4a6e; color: #7dd3fc; }
+    .badge-c { background: #78350f; color: #fcd34d; }
+    .badge-d, .badge-f { background: #7f1d1d; color: #fca5a5; }
+
+    /* Items */
+    .item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 0.9rem; }
+    .item:last-child { border-bottom: none; }
+    .item .icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .item .text { color: #cbd5e1; }
+    .items-group { margin-bottom: 16px; }
+    .items-group .group-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+    .label-issue { background: #450a0a; color: #f87171; }
+    .label-warning { background: #431407; color: #fb923c; }
+    .label-passed { background: #052e16; color: #4ade80; }
+
+    /* Data Table */
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.85rem; }
+    .data-table th { background: #0f172a; color: #64748b; text-align: left; padding: 8px 12px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .data-table td { padding: 8px 12px; border-bottom: 1px solid #1e293b; color: #cbd5e1; word-break: break-all; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #0f172a; }
+
+    /* Tech stack */
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .tech-tag { background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 4px 10px; font-size: 0.82rem; color: #94a3b8; }
+    .tech-category { margin-bottom: 14px; }
+    .tech-category .cat-name { font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+
+    /* Links stats */
+    .links-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .link-stat { background: #0f172a; border-radius: 8px; padding: 12px; text-align: center; }
+    .link-stat .num { font-size: 1.6rem; font-weight: 700; color: #38bdf8; }
+    .link-stat .lbl { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+    .link-stat.broken .num { color: #ef4444; }
+
+    /* Broken links list */
+    .broken-list { margin-top: 12px; }
+    .broken-item { background: #450a0a22; border: 1px solid #7f1d1d; border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; font-size: 0.82rem; }
+    .broken-item .status { color: #f87171; font-weight: 600; margin-right: 8px; }
+    .broken-item .link-url { color: #fca5a5; word-break: break-all; }
+
+    /* Performance metrics */
+    .perf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .perf-metric { background: #0f172a; border-radius: 8px; padding: 14px; }
+    .perf-metric .m-label { font-size: 0.75rem; color: #64748b; margin-bottom: 4px; }
+    .perf-metric .m-value { font-size: 1.2rem; font-weight: 700; }
+    .m-green { color: #22c55e; }
+    .m-yellow { color: #f59e0b; }
+    .m-red { color: #ef4444; }
+    .m-blue { color: #38bdf8; }
+
+    footer { text-align: center; color: #475569; font-size: 0.8rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid #1e293b; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🔍 Website Analysis Report</h1>
+    <div class="url">https://google.com</div>
+    <div class="meta">
+      <span><strong>Scanned:</strong> 19/5/2026, 9:51:39 am</span>
+      <span><strong>Response Time:</strong> 1193ms</span>
+      <span><strong>HTTP Status:</strong> 200</span>
+      <span><strong>Page Size:</strong> 83 KB</span>
+    </div>
+  </div>
+
+  <!-- Score Cards -->
+  <div class="scores-grid">
+    
+  <div class="score-card grade-d">
+    <div class="label">SEO</div>
+    <div class="score">49%</div>
+    <div class="grade">🔴 D — Poor</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:49%"></div></div>
+  </div>
+    
+  <div class="score-card grade-b">
+    <div class="label">Performance</div>
+    <div class="score">83%</div>
+    <div class="grade">🟡 B — Good</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:83%"></div></div>
+  </div>
+    
+  <div class="score-card grade-c">
+    <div class="label">Accessibility</div>
+    <div class="score">72%</div>
+    <div class="grade">🟠 C — Average</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:72%"></div></div>
+  </div>
+    
+  <div class="score-card grade-b">
+    <div class="label">Links</div>
+    <div class="score">79%</div>
+    <div class="grade">🟡 B — Good</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:79%"></div></div>
+  </div>
+  </div>
+  <div style="margin-bottom:28px">
+    
+  <div class="overall-card">
+    <div class="label">Overall Score</div>
+    <div class="score">71%</div>
+    <div class="grade">🟠 C — Average</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:71%"></div></div>
+  </div>
+  </div>
+
+  <!-- Tech Stack -->
+  
+
+  <!-- SEO -->
+  
+  <div class="section">
+    <h2>🔍 SEO Analysis <span class="badge badge-d">🔴 D 49%</span></h2>
+    <div class="items-group"><div class="group-label label-issue">❌ Issues — fix karo</div><div class="item"><span class="icon">❌</span><span class="text">Meta description missing hai!</span></div><div class="item"><span class="icon">❌</span><span class="text">OG tags bilkul nahi — social media preview nahi banega!</span></div><div class="item"><span class="icon">❌</span><span class="text">H1 heading missing hai — page ka main topic unclear</span></div><div class="item"><span class="icon">❌</span><span class="text">Viewport meta missing — mobile SEO kharab hoga!</span></div></div>
+    <div class="items-group"><div class="group-label label-warning">⚠️ Warnings</div><div class="item"><span class="icon">⚠️</span><span class="text">Title 6 chars ka hai — ideal: 30-60 chars</span></div><div class="item"><span class="icon">⚠️</span><span class="text">Canonical URL set nahi — duplicate content issue ho sakta hai</span></div><div class="item"><span class="icon">⚠️</span><span class="text">Twitter card meta missing — Twitter pe preview nahi banega</span></div><div class="item"><span class="icon">⚠️</span><span class="text">Structured data nahi — rich snippets Google mein nahi aayenge</span></div></div>
+    <div class="items-group"><div class="group-label label-passed">✅ Passed</div><div class="item"><span class="icon">✅</span><span class="text">Title: &quot;Google&quot;</span></div><div class="item"><span class="icon">✅</span><span class="text">Robots restriction nahi (indexable)</span></div><div class="item"><span class="icon">✅</span><span class="text">Ek hi H1 tag hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Sab 1 images mein alt text hai ✓</span></div></div>
+    <table class="data-table">
+    <tr><th>SEO Data</th><th>Value</th></tr>
+    <tr><td>Title</td><td>Google</td></tr><tr><td>Headings</td><td>H1:0 &nbsp; H2:0 &nbsp; H3:0 &nbsp; H4:0</td></tr><tr><td>Images</td><td>1 total, 0 missing alt</td></tr>
+  </table>
+  </div>
+
+  <!-- Performance -->
+  
+  <div class="section">
+    <h2>⚡ Performance <span class="badge badge-b">🟡 B 83%</span></h2>
+    
+    <div class="items-group"><div class="group-label label-warning">⚠️ Warnings</div><div class="item"><span class="icon">⚠️</span><span class="text">Response time 1193ms — thoda slow (ideal: &lt;1000ms)</span></div><div class="item"><span class="icon">⚠️</span><span class="text">Content compression nahi — gzip/brotli enable karo, bandwidth bachega</span></div><div class="item"><span class="icon">⚠️</span><span class="text">1 images old format mein (JPG/PNG) — WebP use karo</span></div></div>
+    <div class="items-group"><div class="group-label label-passed">✅ Passed</div><div class="item"><span class="icon">✅</span><span class="text">HTTPS enabled hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Page size 83KB — sahi hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Caching set hai (private, max-age=0) ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Script count: 0 ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Stylesheet count: 1 ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Koi render-blocking script nahi ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">HTTP 200 OK ✓</span></div></div>
+    
+  <div class="perf-grid">
+    <div class="perf-metric"><div class="m-label">Response Time</div><div class="m-value m-yellow">1193ms</div></div>
+    <div class="perf-metric"><div class="m-label">Page Size</div><div class="m-value m-blue">83 KB</div></div>
+    <div class="perf-metric"><div class="m-label">Compression</div><div class="m-value m-red">None</div></div>
+    <div class="perf-metric"><div class="m-label">HTTPS</div><div class="m-value m-green">✓ Yes</div></div>
+    <div class="perf-metric"><div class="m-label">HTTP Status</div><div class="m-value m-green">200</div></div>
+    <div class="perf-metric"><div class="m-label">Scripts</div><div class="m-value m-blue">0</div></div>
+    <div class="perf-metric"><div class="m-label">Stylesheets</div><div class="m-value m-blue">1</div></div>
+    <div class="perf-metric"><div class="m-label">Render-blocking</div><div class="m-value m-green">0</div></div>
+  </div>
+  </div>
+
+  <!-- Accessibility -->
+  
+  <div class="section">
+    <h2>♿ Accessibility <span class="badge badge-c">🟠 C 72%</span></h2>
+    <div class="items-group"><div class="group-label label-issue">❌ Issues — fix karo</div><div class="item"><span class="icon">❌</span><span class="text">Page mein koi H1 nahi — main heading missing hai</span></div><div class="item"><span class="icon">❌</span><span class="text">Koi ARIA landmark nahi — &lt;main&gt;, &lt;nav&gt;, &lt;header&gt; use karo</span></div></div>
+    <div class="items-group"><div class="group-label label-warning">⚠️ Warnings</div><div class="item"><span class="icon">⚠️</span><span class="text">1/1 form inputs unlabeled — screen readers ke liye problem</span></div><div class="item"><span class="icon">⚠️</span><span class="text">Skip to main content link missing — keyboard users ke liye helpful hota</span></div></div>
+    <div class="items-group"><div class="group-label label-passed">✅ Passed</div><div class="item"><span class="icon">✅</span><span class="text">Language set hai: &quot;en-IN&quot; ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Sab 1 images mein alt text hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Ek hi H1 hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Heading hierarchy sahi order mein hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Sab 1 buttons accessible hain ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">Links descriptive hain ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">tabindex sahi use ho raha hai ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">User zoom enabled hai ✓</span></div></div>
+    
+  </div>
+
+  <!-- Links -->
+  
+  <div class="section">
+    <h2>🔗 Links Analysis <span class="badge badge-b">🟡 B 79%</span></h2>
+    <div class="links-stats">
+      <div class="link-stat"><div class="num">12</div><div class="lbl">Total</div></div>
+      <div class="link-stat"><div class="num">8</div><div class="lbl">Internal</div></div>
+      <div class="link-stat"><div class="num">4</div><div class="lbl">External</div></div>
+      <div class="link-stat "><div class="num">0</div><div class="lbl">Broken</div></div>
+      <div class="link-stat"><div class="num">9</div><div class="lbl">Redirects</div></div>
+      <div class="link-stat"><div class="num">0</div><div class="lbl">Nofollow</div></div>
+    </div>
+    
+    <div class="items-group" style="margin-top:12px"><div class="group-label label-issue">❌ Issues</div><div class="item"><span class="icon">❌</span><span class="text">9 links redirect kar rahe hain — URLs update karo</span></div></div>
+    
+    <div class="items-group"><div class="group-label label-passed">✅ Passed</div><div class="item"><span class="icon">✅</span><span class="text">Koi broken link nahi (12 links checked) ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">8 internal links hain ✓</span></div><div class="item"><span class="icon">✅</span><span class="text">4 external links hain ✓</span></div></div>
+  </div>
+
+  <footer>Generated by website-analyzer-cli &nbsp;|&nbsp; 19/5/2026, 9:51:39 am</footer>
+</div>
+</body>
+</html>
