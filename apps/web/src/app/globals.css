@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 248 250 252;
+    --foreground: 15 23 42;
+    --card: 255 255 255;
+    --card-border: 226 232 240;
+    --muted: 100 116 139;
+    --brand: 14 165 233;
+  }
+
+  .dark {
+    --background: 2 6 23;
+    --foreground: 248 250 252;
+    --card: 15 23 42;
+    --card-border: 30 41 59;
+    --muted: 100 116 139;
+    --brand: 14 165 233;
+  }
+
+  * { @apply border-slate-200 dark:border-slate-800; }
+
+  body {
+    @apply bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::selection {
+    @apply bg-brand-500/30 text-brand-900 dark:text-brand-100;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-slate-400 dark:bg-slate-600; }
+}
+
+@layer components {
+  /* Card */
+  .card {
+    @apply bg-white dark:bg-surface-800 border border-slate-200 dark:border-surface-700 rounded-2xl;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-200 hover:border-brand-400/50 hover:shadow-lg hover:shadow-brand-500/5 hover:-translate-y-0.5;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  /* Glow effect */
+  .glow-brand {
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.15);
+  }
+
+  /* Grid background */
+  .bg-grid {
+    background-image: linear-gradient(rgba(14,165,233,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(14,165,233,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Grade badges */
+  .grade-a { @apply text-emerald-400 bg-emerald-400/10 border-emerald-400/20; }
+  .grade-b { @apply text-brand-400 bg-brand-400/10 border-brand-400/20; }
+  .grade-c { @apply text-amber-400 bg-amber-400/10 border-amber-400/20; }
+  .grade-d { @apply text-orange-400 bg-orange-400/10 border-orange-400/20; }
+  .grade-f { @apply text-red-400 bg-red-400/10 border-red-400/20; }
+
+  /* Input */
+  .input-base {
+    @apply w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-surface-700
+           bg-white dark:bg-surface-900
+           text-slate-900 dark:text-slate-100
+           placeholder-slate-400 dark:placeholder-slate-600
+           focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500
+           transition-all duration-200;
+  }
+
+  /* Button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-xl font-semibold
+           bg-brand-500 hover:bg-brand-600
+           text-white
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed
+           dark:focus:ring-offset-surface-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-xl font-semibold
+           bg-slate-100 hover:bg-slate-200
+           dark:bg-surface-700 dark:hover:bg-surface-600
+           text-slate-700 dark:text-slate-200
+           transition-all duration-200;
+  }
+
+  /* Animated border */
+  .border-animated {
+    position: relative;
+  }
+  .border-animated::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #0ea5e9, #22d3ee, #0ea5e9);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .border-animated:hover::before,
+  .border-animated:focus-within::before { opacity: 1; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .animate-in { animation: fadeIn 0.4s ease-out, slideUp 0.4s ease-out; }
+}
+
+/* ─── Print / PDF Export ─────────────────── */
+@media print {
+  /* Navbar + Footer hide karo */
+  header, footer, .no-print { display: none !important; }
+
+  /* Background colors print mein bhi dikhein */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  body { background: white !important; color: black !important; }
+
+  /* Cards ko page break se bachao */
+  .card, .card-hover { break-inside: avoid; page-break-inside: avoid; border: 1px solid #e2e8f0 !important; }
+
+  /* Links print mein plain text */
+  a { text-decoration: none !important; color: inherit !important; }
+
+  /* Page margins */
+  @page { margin: 1.5cm; }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@website-analyzer/cli",
+  "version": "1.0.0",
+  "description": "CLI tool for website-analyzer — analyze any website from terminal",
+  "main": "bin/index.js",
+  "bin": {
+    "website-analyzer": "./bin/index.js"
+  },
+  "license": "MIT",
+  "keywords": ["website-analyzer", "cli", "seo", "performance"],
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "ora": "^5.4.1",
+    "@website-analyzer/core": "*",
+    "@website-analyzer/shared": "*"
+  },
+  "files": ["bin"]
+}

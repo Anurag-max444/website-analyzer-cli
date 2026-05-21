@@ -1,0 +1,19 @@
+{
+  "name": "@website-analyzer/api",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers API for website-analyzer",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build:core && wrangler dev",
+    "deploy": "npm run build:core && wrangler deploy",
+    "deploy:prod": "npm run build:core && wrangler deploy --env production",
+    "build:core": "node scripts/bundle.js",
+    "db:create": "wrangler d1 create website-analyzer-db",
+    "db:migrate": "wrangler d1 execute website-analyzer-db --file=./schema.sql",
+    "db:migrate:prod": "wrangler d1 execute website-analyzer-db --env production --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0",
+    "esbuild": "^0.20.0"
+  }
+}

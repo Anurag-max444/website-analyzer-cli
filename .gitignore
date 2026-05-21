@@ -1,0 +1,162 @@
+command.txt
+
+# ─────────────────────────────────────────
+# NODE.JS
+# ─────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.npm
+.yarn/
+
+
+# Reports (auto-generated)
+reports/
+
+
+# ─────────────────────────────────────────
+# BUILD / OUTPUT
+# ─────────────────────────────────────────
+dist/
+build/
+out/
+.output/
+coverage/
+*.tsbuildinfo
+
+# ─────────────────────────────────────────
+# ENVIRONMENT & SECRETS
+# ─────────────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+.env*.local
+*.pem
+*.key
+*.cert
+secrets/
+config/local.*
+
+# ─────────────────────────────────────────
+# WEBSITE ANALYZER — EXPORTS
+# ─────────────────────────────────────────
+reports/
+exports/
+*.report.html
+*.report.json
+output/
+
+# ─────────────────────────────────────────
+# LOGS
+# ─────────────────────────────────────────
+logs/
+*.log
+*.log.*
+log/
+npm-debug.log*
+
+
+# ─────────────────────────────────────────
+# OS FILES
+# ─────────────────────────────────────────
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.nfs*
+
+# ─────────────────────────────────────────
+# EDITORS & IDEs
+# ─────────────────────────────────────────
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains (WebStorm, IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Emacs
+\#*\#
+.#*
+
+# ─────────────────────────────────────────
+# TESTING
+# ─────────────────────────────────────────
+coverage/
+.nyc_output/
+.jest-cache/
+test-results/
+playwright-report/
+*.snap
+
+# ─────────────────────────────────────────
+# CACHE
+# ─────────────────────────────────────────
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.turbo/
+.next/
+.nuxt/
+.svelte-kit/
+.astro/
+.vite/
+
+# ─────────────────────────────────────────
+# TYPESCRIPT
+# ─────────────────────────────────────────
+*.js.map
+*.d.ts
+!src/**/*.d.ts
+
+# ─────────────────────────────────────────
+# MISC
+# ─────────────────────────────────────────
+*.zip
+*.tar.gz
+*.rar
+*.tmp
+*.temp
+.temp/
+tmp/

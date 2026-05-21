@@ -1,0 +1,9 @@
+{
+  "name": "@website-analyzer/shared",
+  "version": "1.0.0",
+  "description": "Shared constants, grades, and utilities for website-analyzer",
+  "main": "src/index.js",
+  "license": "MIT",
+  "keywords": ["website-analyzer", "shared"],
+  "files": ["src"]
+}

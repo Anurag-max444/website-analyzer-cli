@@ -1,0 +1,17 @@
+{
+  "name": "@website-analyzer/core",
+  "version": "1.0.0",
+  "description": "Core engine for website-analyzer — all scanners and utilities",
+  "main": "src/index.js",
+  "license": "MIT",
+  "keywords": ["website-analyzer", "seo", "performance", "security"],
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3",
+    "ora": "^5.4.1",
+    "@website-analyzer/shared": "*"
+  },
+  "files": ["src"]
+}
